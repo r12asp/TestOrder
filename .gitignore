@@ -2,6 +2,29 @@
 Thumbs.db
 ehthumbs.db
 
+DBRepositoryOrder/bin/*
+DBRepositoryOrder/obj/*
+
+DomainEntityOrder/bin/*
+DomainEntityOrder/obj/*
+
+DomainModelOrder/bin/*
+DomainModelOrder/obj/*
+
+DomainServiceOrder/DomainServiceOrder/bin/*
+DomainServiceOrder/DomainServiceOrder/obj/*
+
+DomainServiceOrder/packages/*
+
+OrderExtension/bin/*
+OrderExtension/obj/*
+
+UnitTestOrder/bin/*
+UnitTestOrder/obj/*
+
+WebClientOrder/bin/*
+WebClientOrder/obj/*
+
 # Folder config file
 Desktop.ini
 
