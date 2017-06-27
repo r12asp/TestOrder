@@ -10,5 +10,6 @@ namespace DomainModelOrder.ViewModel
     {
         public IEnumerable<OrderViewModel> Orders { get; set; }
         public OrderSearchViewModel OrderSearch { get; set; }
+        public PaginationViewModel Pagination { get; set; }
     }
 }

@@ -29,9 +29,9 @@ namespace DomainServiceOrder
         {
             return repo.GetOrderView();
         }
-        public IEnumerable<OrderViewModel> GetOrderViewsAll(OrderSearchViewModel searchModel)
+        public IEnumerable<OrderViewModel> GetOrderViewsAll(OrderSearchViewModel searchModel, PaginationViewModel page)
         {
-            return repo.GetOrderView(searchModel);
+            return repo.GetOrderView(searchModel,page);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace DomainEntityOrder.DBRepository
 {
     public interface IOrderRepository<T> : IRepository<T> where T :class
     {
-        IEnumerable<OrderViewModel> GetOrderView(OrderSearchViewModel searchModel);
+        IEnumerable<OrderViewModel> GetOrderView(OrderSearchViewModel searchModel, PaginationViewModel page);
         IEnumerable<OrderViewModel> GetOrderView();
     }
 }

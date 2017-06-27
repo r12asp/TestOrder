@@ -12,6 +12,6 @@ namespace DomainEntityOrder.DomainService
     {
         IEnumerable<OrderModel> GetOrdersAll();
         IEnumerable<OrderViewModel> GetOrderViewsAll();
-        IEnumerable<OrderViewModel> GetOrderViewsAll(OrderSearchViewModel searchModel);
+        IEnumerable<OrderViewModel> GetOrderViewsAll(OrderSearchViewModel searchModel, PaginationViewModel page);
     }
 }

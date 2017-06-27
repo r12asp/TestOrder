@@ -51,6 +51,7 @@
     <Compile Include="ViewModel\OrderSearchViewModel.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="ViewModel\OrderViewPageViewModel.cs" />
+    <Compile Include="ViewModel\PaginationViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

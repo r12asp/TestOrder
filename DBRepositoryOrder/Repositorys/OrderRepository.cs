@@ -18,7 +18,7 @@ namespace DBRepositoryOrder.Repositorys
         public OrderRepository() : base(new SqlServerContextOrder())
         { }
 
-        public IEnumerable<OrderViewModel> GetOrderView(OrderSearchViewModel searchModel)
+        public IEnumerable<OrderViewModel> GetOrderView(OrderSearchViewModel searchModel,PaginationViewModel page)
         {
             IQueryable<OrderDetailQueryModel> queryableData = from o in dbContext.Orders
                      join cu in dbContext.Customers on o.CustomerID equals cu.CustomerID
@@ -32,11 +32,17 @@ namespace DBRepositoryOrder.Repositorys
                      select new OrderDetailQueryModel {  OrderID = o.OrderID, CreateTime= o.CreateTime, SKU= od.SKU,
                         Price= od.Price,Amount= od.Amount,CustomerName= cu.CustomerName,Email= cu.Email };
 
-            queryableData = queryableData.OrderByField<OrderDetailQueryModel>("OrderID", true);
+            page.TotalItems = queryableData.Count();
+
 
             if ( !string.IsNullOrEmpty(searchModel.SortColumn) )
             {
-                queryableData = queryableData.OrderByField<OrderDetailQueryModel>(searchModel.SortColumn,true);
+                queryableData = queryableData.OrderByField<OrderDetailQueryModel>("OrderID", true);
+                queryableData = queryableData.OrderByField<OrderDetailQueryModel>(searchModel.SortColumn,true).Skip(page.PageSize * (page.CurrntPage - 1)).Take(page.PageSize); ;
+            }else
+            {
+                queryableData = queryableData.OrderByField<OrderDetailQueryModel>("OrderID", true).Skip(page.PageSize*(page.CurrntPage-1)).Take(page.PageSize);
+
             }
 
             List<OrderViewModel> viewResult = new List<OrderViewModel>();
@@ -82,7 +88,7 @@ namespace DBRepositoryOrder.Repositorys
         }
         public IEnumerable<OrderViewModel> GetOrderView()
         {
-            return GetOrderView(new OrderSearchViewModel());
+            return GetOrderView(new OrderSearchViewModel(), new PaginationViewModel {PageSize=10,CurrntPage=1 });
         }
     }
 }

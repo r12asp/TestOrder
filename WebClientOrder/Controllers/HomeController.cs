@@ -17,23 +17,30 @@ namespace WebClientOrder.Controllers
         {
             this.so = so;
         }
+        //[HttpGet]
+        //public ActionResult Index()
+        //{
+        //    OrderViewPageViewModel pageModel = new OrderViewPageViewModel
+        //    {
+        //        Orders = so.GetOrderViewsAll(),
+        //        OrderSearch = new OrderSearchViewModel()
+        //    };
+        //    return View(pageModel);
+        //}
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(OrderSearchViewModel searchModel,string page)
         {
-            OrderViewPageViewModel pageModel = new OrderViewPageViewModel
+            var pp = new PaginationViewModel
             {
-                Orders = so.GetOrderViewsAll(),
-                OrderSearch = new OrderSearchViewModel()
+                CurrntPage = (string.IsNullOrEmpty(page) || int.Parse(page)==0) ? 1 : int.Parse(page),
+                PageSize = 10,
             };
-            return View(pageModel);
-        }
-        [HttpPost]
-        public ActionResult Index(OrderSearchViewModel searchModel)
-        {
+
             OrderViewPageViewModel pageModel = new OrderViewPageViewModel
             {
-                Orders = so.GetOrderViewsAll(searchModel),
-                OrderSearch = searchModel
+                Orders = so.GetOrderViewsAll(searchModel, pp ),
+                OrderSearch = searchModel,
+                Pagination =pp,
             };
             return View(pageModel);
         }

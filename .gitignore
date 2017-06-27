@@ -25,6 +25,8 @@ UnitTestOrder/obj/*
 WebClientOrder/bin/*
 WebClientOrder/obj/*
 
+packages/*
+
 # Folder config file
 Desktop.ini
 
