@@ -18,11 +18,19 @@ namespace DomainServiceOrder
         }
         public IEnumerable<ProductModel> GetAll()
         {
-            return repo.GetAll();
+            return repo.GetAll().OrderByDescending(p=>p.CreateTime );
         }
         public void Insert(ProductModel pModel)
         {
             repo.Insert(pModel);
+        }
+        public void Delete(Guid pid)
+        {
+            repo.Delete(pid);
+        }
+        public ProductModel Get(Guid pID)
+        {
+            return repo.Get(pID);
         }
 
 

@@ -11,5 +11,9 @@ namespace DomainEntityOrder.DomainService
     {
         IEnumerable<ProductModel> GetAll();
         void Insert(ProductModel pModel);
+        void Delete(Guid pid);
+
+        ProductModel Get(Guid pID);
+
     }
 }

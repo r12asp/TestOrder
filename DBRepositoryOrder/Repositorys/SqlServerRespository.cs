@@ -47,13 +47,13 @@ namespace DBRepositoryOrder.Repositorys
                 }
             }
         }
-        public void Delete(T TModel)
+        public void Delete<Tid>(Tid id)
         {
             using (var dbContextTransaction = dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    this.dbSet.Remove(TModel);
+                    this.dbSet.Remove(this.dbSet.Find(id));
                     dbContext.SaveChanges();
                     dbContextTransaction.Commit();
                 }

@@ -18,7 +18,7 @@ namespace WebClientOrder.Controllers
             pro = inPro;
         }
         // GET: Product
-        public ActionResult Index(ProductSearchViewModel productSearch, string page )
+        public ActionResult Index(ProductSearchViewModel productSearch, string page)
         {
             var pp = new PaginationViewModel
             {
@@ -37,7 +37,7 @@ namespace WebClientOrder.Controllers
 
         public JsonResult Insert(ProductModel pModel)
         {
-            if( pModel ==null
+            if (pModel == null
                 || string.IsNullOrEmpty(pModel.SKU)
                 || string.IsNullOrEmpty(pModel.ProductName)
                 )
@@ -53,5 +53,11 @@ namespace WebClientOrder.Controllers
             return Json("success");
         }
 
+        public JsonResult Delete(string pid)
+        {
+           pro.Delete( new Guid(pid) );
+           return Json("success");
+
+        }
     }
 }

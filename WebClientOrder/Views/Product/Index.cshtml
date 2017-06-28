@@ -10,33 +10,58 @@
 <h2>Product</h2>
 <script type="text/javascript">
 
-        $(document).ready(function () {
+    $(document).ready(function () {
+        $("#CheckSubmit").click(function (e) {
+            //e.preventDefault();
+            var element = this;
+            $.ajax({
+                url: "/Product/Insert",
+                type: "POST",
+                data: $("#ggg").serialize(),
+                //dataType: "json",
+                //traditional: true,
+                //contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#lll").html(data);
+                    $("#ggg").trigger("reset");
+                    location.reload();
 
-            $("#CheckSubmit").click(function (e) {
-                //e.preventDefault();
-                var element = this;
-                $.ajax({
-                    url: "/Product/Insert",
-                    type: "POST",
-                    data: $("#ggg").serialize(),
-                    //dataType: "json",
-                    //traditional: true,
-                    //contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        $("#lll").html(data);
-                        $("#ggg").trigger("reset");
-                    },
-                    error: function () {
-                        alert("An error has occured!!!");
-                    }
-                });
+                },
+                error: function () {
+                    alert("An error has occured!!!");
+                }
             });
         });
+        $("#DeleteSubmit").click(function (e) {
+            //e.preventDefault();
+            var element = this;
+            $.ajax({
+                url: "/Product/Delete",
+                type: "POST",
+                data: "pid=" + $("#pid").val(),
+                //dataType: "json",
+                //traditional: true,
+                //contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    //alert(data);
+                    location.reload();
+                },
+                error: function () {
+                    alert("An error has occured!!!");
+                }
+            });
+        });
+    });
+
+
+    function deleteProduct(pid,sku)
+    {
+        $("#deleteSpan").html(sku);
+        $("#pid").val(pid);
+    }
 </script>
 <div class="container">
     <button class="btn btn-default" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Create</button>
-    <button class="btn btn-default">Delete</button>
-
     <table class="table table-striped">
         <caption>Product List</caption>
         <tr>
@@ -44,6 +69,7 @@
             <th>SKU</th>
             <th>Price</th>
             <th>Create Time</th>
+            <th></th>
         </tr>
         @{
             int i = 1;
@@ -54,6 +80,7 @@
                     <td>@o.SKU</td>
                     <td>@o.Price</td>
                     <td>@o.CreateTime</td>
+                    <td><button class="btn btn-default" data-toggle="modal" onclick="deleteProduct('@o.ProductID','@o.SKU')" data-target="#myModalDelete">Delete</button><button class="btn btn-default">Edit</button></td>
                 </tr>
                 i++;
             }
@@ -61,10 +88,6 @@
         }
     </table>
 </div>
-
-
-
-
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -90,9 +113,28 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <label name="lll" id="lll">.</label>
+                <label name="lll" id="lll"></label>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" name="CheckSubmit" id="CheckSubmit">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myDeleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myDeleteModalLabel">Delete Product</h4>
+            </div>
+            <div class="modal-body">
+                Confirmation of delete Product : <span id="deleteSpan" name="deleteSpan"></span>
+                <input type="hidden" name="pid" id="pid" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" name="DeleteSubmit" id="DeleteSubmit">Delete</button>
             </div>
         </div>
     </div>
