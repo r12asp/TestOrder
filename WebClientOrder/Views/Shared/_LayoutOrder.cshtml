@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <style>
+        .pagination {
+            display: inline-block;
+        }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+
+                .pagination a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+
+                .pagination a:hover:not(.active) {
+                    background-color: #ddd;
+                }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -22,9 +45,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">link <span class="sr-only">(current)</span>  </a>
+                        <a href="/Home/Index">Order <span class="sr-only">(current)</span>  </a>
                     </li>
-                    <li><a href="#">Test</a></li>
+                    <li><a href="/Product/Index">Product</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span> </a>
                         <ul class="dropdown-menu">
@@ -39,8 +62,15 @@
     <div>
         @RenderBody()
     </div>
+    <div class="navbar navbar-default">
+        <div class="container">
+            <p class="navbar-text pull-left">xiaofeng</p>
+            <a href="#" class="navbar-text pull-right">Copyright</a>
 
-    <script src="~/Scripts/jquery-3.1.1.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
+        </div>
+    </div>
+
+
+
 </body>
 </html>

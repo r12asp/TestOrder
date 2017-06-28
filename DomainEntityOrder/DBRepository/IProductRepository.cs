@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace DomainEntityOrder.DBRepository
 {
-    public interface IRepository<T> where T:class
+    public interface IProductRepository<T> : IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
-        T Get<Tid>(Tid id);
-        void Insert(T tModel);
-        void Delete(T tModel);
+
     }
 }

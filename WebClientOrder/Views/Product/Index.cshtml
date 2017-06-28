@@ -1,0 +1,100 @@
+﻿@using DomainModelOrder.ViewModel;
+@using DomainModelOrder;
+@using OrderExtension;
+@model ProductPageViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutOrder.cshtml";
+}
+
+<h2>Product</h2>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#CheckSubmit").click(function (e) {
+                //e.preventDefault();
+                var element = this;
+                $.ajax({
+                    url: "/Product/Insert",
+                    type: "POST",
+                    data: $("#ggg").serialize(),
+                    //dataType: "json",
+                    //traditional: true,
+                    //contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        $("#lll").html(data);
+                        $("#ggg").trigger("reset");
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+            });
+        });
+</script>
+<div class="container">
+    <button class="btn btn-default" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Create</button>
+    <button class="btn btn-default">Delete</button>
+
+    <table class="table table-striped">
+        <caption>Product List</caption>
+        <tr>
+            <th>#</th>
+            <th>SKU</th>
+            <th>Price</th>
+            <th>Create Time</th>
+        </tr>
+        @{
+            int i = 1;
+            foreach (ProductModel o in Model.Products)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@o.SKU</td>
+                    <td>@o.Price</td>
+                    <td>@o.CreateTime</td>
+                </tr>
+                i++;
+            }
+
+        }
+    </table>
+</div>
+
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">New Product</h4>
+            </div>
+            <div class="modal-body">
+                <form name="ggg" id="ggg">
+                    <div class="form-group">
+                        <label for="ProductName" class="control-label">Product Name</label>
+                        <input type="text" class="form-control" id="ProductName" name="ProductName" placeholder="Product Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="SKU" class="control-label">SKU</label>
+                        <input type="text" class="form-control" id="SKU" name="SKU" placeholder="SKU" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Price" class="control-label">Price</label>
+                        <input type="text" class="form-control" id="Price" name="Price" placeholder="Price" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <label name="lll" id="lll">.</label>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" name="CheckSubmit" id="CheckSubmit">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+

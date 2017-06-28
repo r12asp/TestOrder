@@ -23,13 +23,45 @@ namespace DBRepositoryOrder.Repositorys
 
         public IEnumerable<T> GetAll()
         {
-            var xx = from o in dbContext.Orders
-                   select o;
+            var xx = from o in dbSet
+                     select o;
             return (IQueryable<T>)xx;
         }
         public T Get<Tid>(Tid id)
         {
             return dbSet.Find(id);
+        }
+        public void Insert(T TModel)
+        {
+            using (var dbContextTransaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    this.dbSet.Add(TModel);
+                    dbContext.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                }
+            }
+        }
+        public void Delete(T TModel)
+        {
+            using (var dbContextTransaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    this.dbSet.Remove(TModel);
+                    dbContext.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                }
+            }
         }
     }
 }

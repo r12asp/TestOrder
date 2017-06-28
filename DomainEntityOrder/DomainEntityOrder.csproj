@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="DBRepository\IOrderRepository.cs" />
     <Compile Include="DBRepository\IRepository.cs" />
-    <Compile Include="DomainService\IServiceOrder.cs" />
+    <Compile Include="DomainService\IOrderService.cs" />
+    <Compile Include="DomainService\IProductService.cs" />
+    <Compile Include="DBRepository\IProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

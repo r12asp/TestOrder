@@ -13,7 +13,7 @@ namespace DomainModelOrder.ViewModel
         public string Email { set; get; }
         public int Amount { set; get; }
         public decimal Price { set; get; }
-        public List<OrderItemViewModel> OrderItems { set; get; }
+        public IEnumerable<OrderDetailModel> OrderItems { set; get; }
         //public Int16 Status { set; get; }
         public DateTime CreateTime { set; get; }
         //public DateTime UpdateTime { set; get; }

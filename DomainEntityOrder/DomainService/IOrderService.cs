@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DomainEntityOrder.DomainService
 {
-    public interface IServiceOrder
+    public interface IOrderService
     {
         IEnumerable<OrderModel> GetOrdersAll();
         IEnumerable<OrderViewModel> GetOrderViewsAll();

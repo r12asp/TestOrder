@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace DomainServiceOrder
 {
-    public class ServiceOrder : IServiceOrder
+    public class ServiceOrder : IOrderService
     {
         private IOrderRepository<OrderModel> repo;
         public ServiceOrder(IOrderRepository<OrderModel> repo)

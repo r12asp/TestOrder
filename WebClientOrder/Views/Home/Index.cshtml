@@ -1,5 +1,5 @@
 ﻿@using DomainModelOrder.ViewModel;
-@using X.PagedList.Mvc;
+@using DomainModelOrder;
 @using OrderExtension;
 @model OrderViewPageViewModel
 <script>
@@ -60,7 +60,7 @@
                     <td>@o.Price</td>
                     <td>@o.Amount</td>
                     <td>
-                        @foreach (OrderItemViewModel iOIV in o.OrderItems)
+                        @foreach (OrderDetailModel iOIV in o.OrderItems)
                         {
                             <span style="background-color:gold;margin-right:5px;padding:2px"> @iOIV.SKU</span>
                             <span style="background-color:aqua;margin-right:5px;padding:2px"> @iOIV.Amount </span>
@@ -77,5 +77,5 @@
     Model.Pagination != null ? Model.Pagination.CurrntPage:1,
     Model.Pagination != null ? Model.Pagination.PageSize:10), page => Url.Action("Index",  new { page }))*@
 
-    <div class="pager"> @Html.PageLinks(Model.Pagination, x => Url.Action("Index", new { page = x })) </div> 
+    <div class="pagination pull-right"> @Html.PageLinks(Model.Pagination, x => Url.Action("Index", new { page = x })) </div> 
 </div>

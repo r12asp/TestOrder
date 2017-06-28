@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constant\GlobalConsts.cs" />
     <Compile Include="CustomerModel.cs" />
     <Compile Include="OrderDetailModel.cs" />
     <Compile Include="OrderModel.cs" />
@@ -52,6 +53,8 @@
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="ViewModel\OrderViewPageViewModel.cs" />
     <Compile Include="ViewModel\PaginationViewModel.cs" />
+    <Compile Include="ViewModel\ProductPageViewModel.cs" />
+    <Compile Include="ViewModel\ProductSearchViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

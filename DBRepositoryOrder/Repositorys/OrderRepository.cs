@@ -2,6 +2,7 @@
 using DomainEntityOrder;
 using DomainEntityOrder.DBRepository;
 using DomainModelOrder;
+using DomainModelOrder.Constant;
 using DomainModelOrder.ViewModel;
 using OrderExtension;
 using System;
@@ -18,77 +19,100 @@ namespace DBRepositoryOrder.Repositorys
         public OrderRepository() : base(new SqlServerContextOrder())
         { }
 
-        public IEnumerable<OrderViewModel> GetOrderView(OrderSearchViewModel searchModel,PaginationViewModel page)
+        public IEnumerable<OrderViewModel> GetOrderView(OrderSearchViewModel searchModel, PaginationViewModel page)
         {
-            IQueryable<OrderDetailQueryModel> queryableData = from o in dbContext.Orders
-                     join cu in dbContext.Customers on o.CustomerID equals cu.CustomerID
-                     join od in dbContext.OrderDetails on o.OrderID equals od.OrderID
-                     where
-                     (string.IsNullOrEmpty(searchModel.CustomerName) || cu.CustomerName.ToUpper().Contains( searchModel.CustomerName.ToUpper()) )
-                     && (string.IsNullOrEmpty(searchModel.SKU) || od.SKU.ToUpper().Contains(searchModel.SKU.ToUpper()) )
-                     //where cu.CustomerName == "customer2"
-                     //orderby o.OrderID, o.UpdateTime descending
-                     //orderby string.IsNullOrEmpty(searchModel.SortColumn) ? o.OrderID: searchModel.SortColumn
-                     select new OrderDetailQueryModel {  OrderID = o.OrderID, CreateTime= o.CreateTime, SKU= od.SKU,
-                        Price= od.Price,Amount= od.Amount,CustomerName= cu.CustomerName,Email= cu.Email };
+            //IQueryable<OrderDetailQueryModel> queryableData = from o in dbContext.Orders
+            //         join cu in dbContext.Customers on o.CustomerID equals cu.CustomerID
+            //         join od in dbContext.OrderDetails on o.OrderID equals od.OrderID
+            //         where
+            //         (string.IsNullOrEmpty(searchModel.CustomerName) || cu.CustomerName.ToUpper().Contains( searchModel.CustomerName.ToUpper()) )
+            //         && (string.IsNullOrEmpty(searchModel.SKU) || od.SKU.ToUpper().Contains(searchModel.SKU.ToUpper()) )
+            //         //where cu.CustomerName == "customer2"
+            //         //orderby o.OrderID, o.UpdateTime descending
+            //         //orderby string.IsNullOrEmpty(searchModel.SortColumn) ? o.OrderID: searchModel.SortColumn
+            //         select new OrderDetailQueryModel {  OrderID = o.OrderID, CreateTime= o.CreateTime, SKU= od.SKU,
+            //            Price= od.Price,Amount= od.Amount,CustomerName= cu.CustomerName,Email= cu.Email };
+
+            IQueryable<OrderViewModel> queryableData = from o in dbContext.Orders
+                                                       join cu in dbContext.Customers on o.CustomerID equals cu.CustomerID
+                                                       join od in dbContext.OrderDetails on o.OrderID equals od.OrderID
+                                                       where
+                                                       (string.IsNullOrEmpty(searchModel.CustomerName) || cu.CustomerName.ToUpper().Contains(searchModel.CustomerName.ToUpper()))
+                                                       && (string.IsNullOrEmpty(searchModel.SKU) || od.SKU.ToUpper().Contains(searchModel.SKU.ToUpper()))
+                                                       //where cu.CustomerName == "customer2"
+                                                       //orderby o.OrderID, o.UpdateTime descending
+                                                       //orderby string.IsNullOrEmpty(searchModel.SortColumn) ? o.OrderID: searchModel.SortColumn
+                                                       select new OrderViewModel
+                                                       {
+                                                           OrderID = o.OrderID,
+                                                           CreateTime = o.CreateTime,
+                                                           CustomerName = cu.CustomerName,
+                                                           Email = cu.Email,
+                                                           OrderItems = dbContext.OrderDetails.Where(a => a.OrderID == o.OrderID),
+                                                       };
+
+
 
             page.TotalItems = queryableData.Count();
 
-
-            if ( !string.IsNullOrEmpty(searchModel.SortColumn) )
+            if (!string.IsNullOrEmpty(searchModel.SortColumn))
             {
-                queryableData = queryableData.OrderByField<OrderDetailQueryModel>("OrderID", true);
-                queryableData = queryableData.OrderByField<OrderDetailQueryModel>(searchModel.SortColumn,true).Skip(page.PageSize * (page.CurrntPage - 1)).Take(page.PageSize); ;
-            }else
+                queryableData = queryableData.OrderByField<OrderViewModel>("OrderID", true);
+                queryableData = queryableData.OrderByField<OrderViewModel>(searchModel.SortColumn, true).Skip(page.PageSize * (page.CurrntPage - 1)).Take(page.PageSize); ;
+            } else
             {
-                queryableData = queryableData.OrderByField<OrderDetailQueryModel>("OrderID", true).Skip(page.PageSize*(page.CurrntPage-1)).Take(page.PageSize);
+                queryableData = queryableData.OrderByField<OrderViewModel>("OrderID", true).Skip(page.PageSize * (page.CurrntPage - 1)).Take(page.PageSize);
 
             }
 
             List<OrderViewModel> viewResult = new List<OrderViewModel>();
 
-            OrderViewModel om = null;
-            Guid tempOrderId = Guid.NewGuid();
             foreach (var iXX in queryableData)
-            {
-                if (tempOrderId != iXX.OrderID || om == null)
-                {
-                    tempOrderId = iXX.OrderID;
-                    om = new OrderViewModel
-                    {
-                        OrderID = iXX.OrderID,
-                        CustomerName = iXX.CustomerName,
-                        Email = iXX.Email,
-                        CreateTime = iXX.CreateTime,
-                    };
-                    viewResult.Add(om);
-                    OrderItemViewModel oiv = new OrderItemViewModel
-                    {
-                        Amount = iXX.Amount,
-                        Price = iXX.Price,
-                        SKU = iXX.SKU
-                    };
-                    if (om.OrderItems == null) om.OrderItems = new List<OrderItemViewModel>();
-                    om.OrderItems.Add(oiv);
-                }
-                else
-                {
-                    OrderItemViewModel oiv = new OrderItemViewModel
-                    {
-                        Amount = iXX.Amount,
-                        Price = iXX.Price,
-                        SKU = iXX.SKU
-                    };
-                    if (om.OrderItems == null) om.OrderItems = new List<OrderItemViewModel>();
-                    om.OrderItems.Add(oiv);
-                }
-            }
+            { }
 
-            return viewResult.AsEnumerable<OrderViewModel>();
+
+                //OrderViewModel om = null;
+                //Guid tempOrderId = Guid.NewGuid();
+                //foreach (var iXX in queryableData)
+                //{
+                //    if (tempOrderId != iXX.OrderID || om == null)
+                //    {
+                //        tempOrderId = iXX.OrderID;
+                //        om = new OrderViewModel
+                //        {
+                //            OrderID = iXX.OrderID,
+                //            CustomerName = iXX.CustomerName,
+                //            Email = iXX.Email,
+                //            CreateTime = iXX.CreateTime,
+                //        };
+                //        viewResult.Add(om);
+                //        OrderItemViewModel oiv = new OrderItemViewModel
+                //        {
+                //            Amount = iXX.Amount,
+                //            Price = iXX.Price,
+                //            SKU = iXX.SKU
+                //        };
+                //        if (om.OrderItems == null) om.OrderItems = new List<OrderItemViewModel>();
+                //        om.OrderItems.Add(oiv);
+                //    }
+                //    else
+                //    {
+                //        OrderItemViewModel oiv = new OrderItemViewModel
+                //        {
+                //            Amount = iXX.Amount,
+                //            Price = iXX.Price,
+                //            SKU = iXX.SKU
+                //        };
+                //        if (om.OrderItems == null) om.OrderItems = new List<OrderItemViewModel>();
+                //        om.OrderItems.Add(oiv);
+                //    }
+                //}
+
+                return queryableData.AsEnumerable<OrderViewModel>();
         }
         public IEnumerable<OrderViewModel> GetOrderView()
         {
-            return GetOrderView(new OrderSearchViewModel(), new PaginationViewModel {PageSize=10,CurrntPage=1 });
+            return GetOrderView(new OrderSearchViewModel(), new PaginationViewModel {PageSize= GlobalConsts.PageSize, CurrntPage=1 });
         }
     }
 }

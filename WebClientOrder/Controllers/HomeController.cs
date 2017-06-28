@@ -1,5 +1,6 @@
 ﻿using DomainEntityOrder;
 using DomainEntityOrder.DomainService;
+using DomainModelOrder.Constant;
 using DomainModelOrder.ViewModel;
 using DomainServiceOrder;
 using System;
@@ -12,8 +13,8 @@ namespace WebClientOrder.Controllers
 {
     public class HomeController : Controller
     {
-        private IServiceOrder so;
-        public HomeController(IServiceOrder so)
+        private IOrderService so;
+        public HomeController(IOrderService so)
         {
             this.so = so;
         }
@@ -33,7 +34,7 @@ namespace WebClientOrder.Controllers
             var pp = new PaginationViewModel
             {
                 CurrntPage = (string.IsNullOrEmpty(page) || int.Parse(page)==0) ? 1 : int.Parse(page),
-                PageSize = 10,
+                PageSize = GlobalConsts.PageSize,
             };
 
             OrderViewPageViewModel pageModel = new OrderViewPageViewModel
@@ -44,6 +45,7 @@ namespace WebClientOrder.Controllers
             };
             return View(pageModel);
         }
+
 
     }
 }

@@ -28,16 +28,50 @@ namespace OrderExtension
             if (pagingInfo.TotalPages == 1)
                 return MvcHtmlString.Create(String.Empty);
 
+            int span = 5;
+            int currentPage = pagingInfo.CurrntPage;
             StringBuilder result = new StringBuilder();
             for (int index = 1; index <= pagingInfo.TotalPages; index++)
             {
-                TagBuilder tag = new TagBuilder("a"); // Construct an <a> tag
-                tag.MergeAttribute("href", pageUrl(index));
-                tag.Attributes.Add("OnClick", "ccc(" + index + ")");
-                tag.InnerHtml = (index).ToString();
+                if( currentPage>1 && index==currentPage-1)
+                {
+                    TagBuilder tag = new TagBuilder("a"); // Construct an <a> tag
+                    tag.MergeAttribute("href", pageUrl(index));
+                    tag.Attributes.Add("OnClick", "ccc(" + index + ")");
+                    tag.InnerHtml = @"<<";
+                    if (index == pagingInfo.CurrntPage)
+                        tag.AddCssClass("active");
+                    result.Append(@"<span style='margin - right:8px; padding: 3px'>" + tag.ToString() + @"</span>");
+                    continue;
+
+                }
+                if ( index == currentPage+span  )
+                {
+                    TagBuilder tag = new TagBuilder("a"); // Construct an <a> tag
+                    tag.MergeAttribute("href", pageUrl(index));
+                    tag.Attributes.Add("OnClick", "ccc(" + index + ")");
+                    tag.InnerHtml = @">>";
+                    if (index == pagingInfo.CurrntPage)
+                        tag.AddCssClass("active");
+                    result.Append(@"<span style='margin - right:8px; padding: 3px'>" + tag.ToString() + @"</span>");
+                    continue;
+                }
+                if(index > currentPage+span)
+                {
+                    continue;
+                }
+                if (currentPage>2 && index < currentPage -1)
+                {
+                    continue;
+                }
+
+                TagBuilder tagNew = new TagBuilder("a"); // Construct an <a> tag
+                tagNew.MergeAttribute("href", pageUrl(index));
+                tagNew.Attributes.Add("OnClick", "ccc(" + index + ")");
+                tagNew.InnerHtml = (index).ToString();
                 if (index == pagingInfo.CurrntPage)
-                    tag.AddCssClass("selected");
-                result.Append(@"<span style='margin - right:8px; padding: 3px'>" + tag.ToString() + @"</span>");
+                    tagNew.AddCssClass("active");
+                result.Append(@"<span style='margin - right:8px; padding: 3px'>" + tagNew.ToString() + @"</span>");
             }
             return MvcHtmlString.Create(result.ToString());
         }
