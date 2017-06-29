@@ -11,6 +11,7 @@ namespace DomainEntityOrder.DBRepository
         IEnumerable<T> GetAll();
         T Get<Tid>(Tid id);
         void Insert(T tModel);
+        void Edit(T tModel);
         void Delete<Tid>(Tid id);
     }
 }

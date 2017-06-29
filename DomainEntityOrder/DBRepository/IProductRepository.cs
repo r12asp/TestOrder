@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DomainModelOrder.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace DomainEntityOrder.DBRepository
 {
     public interface IProductRepository<T> : IRepository<T> where T : class
     {
-
+        IEnumerable<T> GetAll(ProductSearchViewModel searchModel, PaginationViewModel page);
     }
 }

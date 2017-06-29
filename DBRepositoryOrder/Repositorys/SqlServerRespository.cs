@@ -47,6 +47,22 @@ namespace DBRepositoryOrder.Repositorys
                 }
             }
         }
+        public void Edit(T TModel)
+        {
+            using (var dbContextTransaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    dbContext.Entry(TModel).State = EntityState.Modified;
+                    dbContext.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                }
+            }
+        }
         public void Delete<Tid>(Tid id)
         {
             using (var dbContextTransaction = dbContext.Database.BeginTransaction())

@@ -1,6 +1,7 @@
 ﻿using DomainEntityOrder.DBRepository;
 using DomainEntityOrder.DomainService;
 using DomainModelOrder;
+using DomainModelOrder.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,17 @@ namespace DomainServiceOrder
         {
             return repo.GetAll().OrderByDescending(p=>p.CreateTime );
         }
+        public IEnumerable<ProductModel> GetAll(ProductSearchViewModel searchModel, PaginationViewModel page)
+        {
+            return repo.GetAll(searchModel,page);
+        }
         public void Insert(ProductModel pModel)
         {
             repo.Insert(pModel);
+        }
+        public void Edit(ProductModel pModel)
+        {
+            repo.Edit(pModel);
         }
         public void Delete(Guid pid)
         {

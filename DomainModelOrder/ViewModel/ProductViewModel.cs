@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace DomainModelOrder.ViewModel
 {
-    public class ProductSearchViewModel
+    public class ProductViewModel
     {
+        public Guid ProductID { set; get; }
         public string ProductName { set; get; }
         public string SKU { set; get; }
-        public string SortColumn { get; set; }
-
+        public decimal Price { set; get; }
+        public Int16 Status { set; get; }
+        public DateTime CreateTime { set; get; }
+        public DateTime UpdateTime { set; get; }
     }
 }

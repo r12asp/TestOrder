@@ -28,14 +28,14 @@ namespace WebClientOrder.Controllers
 
             ProductPageViewModel pageModel = new ProductPageViewModel
             {
-                Products = pro.GetAll(),
+                Products = pro.GetAll(productSearch,pp),
                 ProductSearch = productSearch,
                 Pagination = pp,
             };
             return View(pageModel);
         }
 
-        public JsonResult Insert(ProductModel pModel)
+        public JsonResult InsertOrEdit(ProductModel pModel)
         {
             if (pModel == null
                 || string.IsNullOrEmpty(pModel.SKU)
@@ -45,11 +45,23 @@ namespace WebClientOrder.Controllers
                 return Json("fail");
             }
 
-            pModel.ProductID = Guid.NewGuid();
-            pModel.Status = 0;
-            pModel.CreateTime = DateTime.Now;
-            pModel.UpdateTime = DateTime.Now;
-            pro.Insert(pModel);
+            if (pModel.ProductID == null || pModel.ProductID == Guid.Empty)
+            {
+                pModel.ProductID = Guid.NewGuid();
+                pModel.Status = 0;
+                pModel.CreateTime = DateTime.Now;
+                pModel.UpdateTime = DateTime.Now;
+                pro.Insert(pModel);
+            }
+            else
+            {
+                ProductModel ppp = pro.Get(pModel.ProductID);
+                ppp.SKU = pModel.SKU;
+                ppp.ProductName = pModel.ProductName;
+                ppp.Price = pModel.Price;
+
+                pro.Edit(ppp);
+            }
             return Json("success");
         }
 
@@ -57,7 +69,11 @@ namespace WebClientOrder.Controllers
         {
            pro.Delete( new Guid(pid) );
            return Json("success");
+        }
 
+        public JsonResult Get(string pid)
+        {
+            return Json( pro.Get(new Guid(pid)));
         }
     }
 }

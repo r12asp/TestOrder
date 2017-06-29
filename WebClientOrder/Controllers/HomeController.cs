@@ -18,16 +18,6 @@ namespace WebClientOrder.Controllers
         {
             this.so = so;
         }
-        //[HttpGet]
-        //public ActionResult Index()
-        //{
-        //    OrderViewPageViewModel pageModel = new OrderViewPageViewModel
-        //    {
-        //        Orders = so.GetOrderViewsAll(),
-        //        OrderSearch = new OrderSearchViewModel()
-        //    };
-        //    return View(pageModel);
-        //}
         [HttpGet]
         public ActionResult Index(OrderSearchViewModel searchModel,string page)
         {

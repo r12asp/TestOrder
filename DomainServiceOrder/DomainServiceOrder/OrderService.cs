@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace DomainServiceOrder
 {
-    public class ServiceOrder : IOrderService
+    public class OrderService : IOrderService
     {
         private IOrderRepository<OrderModel> repo;
-        public ServiceOrder(IOrderRepository<OrderModel> repo)
+        public OrderService(IOrderRepository<OrderModel> repo)
         {
             this.repo = repo;
         }

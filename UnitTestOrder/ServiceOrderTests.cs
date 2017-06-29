@@ -34,7 +34,7 @@ namespace DomainServiceOrder.DomainService.Tests
             };
             var mock = new Mock<IOrderRepository<OrderModel>>();
             mock.Setup(orderRepo => orderRepo.GetAll()).Returns(expectedOrderList);
-            ServiceOrder serviceOrder = new ServiceOrder(mock.Object);
+            OrderService serviceOrder = new OrderService(mock.Object);
 
             //Act
             var results = serviceOrder.GetOrdersAll();

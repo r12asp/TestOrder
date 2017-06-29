@@ -23,7 +23,7 @@ namespace WebClientOrder.Base
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             builder.RegisterType<OrderRepository>().As<IOrderRepository<OrderModel>>().InstancePerRequest();
-            builder.RegisterType<ServiceOrder>().As<IOrderService>().InstancePerRequest();
+            builder.RegisterType<OrderService>().As<IOrderService>().InstancePerRequest();
             builder.RegisterType<ProductRepository>().As<IProductRepository<ProductModel>>().InstancePerRequest();
             builder.RegisterType<ProductService>().As<IProductService>().InstancePerRequest();
 

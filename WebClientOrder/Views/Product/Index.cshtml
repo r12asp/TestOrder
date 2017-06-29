@@ -11,21 +11,18 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
         $("#CheckSubmit").click(function (e) {
             //e.preventDefault();
             var element = this;
             $.ajax({
-                url: "/Product/Insert",
+                url: "/Product/InsertOrEdit",
                 type: "POST",
                 data: $("#ggg").serialize(),
-                //dataType: "json",
-                //traditional: true,
-                //contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     $("#lll").html(data);
                     $("#ggg").trigger("reset");
                     location.reload();
-
                 },
                 error: function () {
                     alert("An error has occured!!!");
@@ -51,21 +48,77 @@
                 }
             });
         });
+        $('button[id^="editModal"]').click(function (e) {
+            //alert(this);
+            var element = this;
+            $.ajax({
+                url: "/Product/Get",
+                type: "POST",
+                data: "pid=" + $("#pid").val(),
+                success: function (data) {
+                    //for (var key in data) {
+                    //    alert(data[key]);
+                    //}
+                    $("#ProductName").val(data.ProductName);
+                    $("#SKU").val(data.SKU);
+                    $("#Price").val(data.Price);
+
+                },
+                error: function () {
+                    alert("An error has occured!!!");
+                }
+            });
+            e.preventDefault();
+
+        });
     });
 
-
-    function deleteProduct(pid,sku)
-    {
+    function createProduct() {
+        $("#myModalLabel").text("New Product");
+        $("#ggg").trigger("reset");
+    }
+    function deleteProduct(pid, sku) {
         $("#deleteSpan").html(sku);
         $("#pid").val(pid);
     }
+    function editProduct(pid) {
+        $("#pid").val(pid);
+        $("#ProductID").val(pid);
+        $("#myModalLabel").text("Edit Product");
+    }
+    function ccc(p) {
+        $('input[name=page]').val(p);
+        $('form[name="productSearch"]').submit();
+        event.preventDefault();
+    }
 </script>
 <div class="container">
-    <button class="btn btn-default" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Create</button>
+    
+    <form name="productSearch" class="form-inline" id="productSearch">
+        <input type="hidden" name="page" />
+
+        <div class="form-group">
+            <label for="SKU">SKU</label>
+            <input id="SKU" name="SKU" type="text" class="form-control" placeholder="SKU" value="@Model.ProductSearch.SKU"/>
+        </div>
+        <div class="form-group">
+            <label for="ProductName">Product Name</label>
+            <input id="ProductName" name="ProductName" type="text" class="form-control" placeholder="Product Name" value="@Model.ProductSearch.ProductName"/>
+        </div>
+        <select id="SortColumn" name="SortColumn" class="form-control">
+            <option value="SKU" @(Model.ProductSearch.SortColumn == "SKU" ? "selected" : "")>SKU</option>
+            <option value="ProductName" @(Model.ProductSearch.SortColumn == "ProductName" ? "selected" : "")>Product Name</option>
+            <option value="CreateTime" @(Model.ProductSearch.SortColumn == "CreateTime" ? "selected" : "")>CreateTime</option>
+        </select>
+        <button type="submit" class="btn btn-default">Search</button>
+    </form>
+    <button class="btn btn-primary pull-right" data-toggle="modal" onclick="createProduct();" data-target="#myModal">Create</button>
+
     <table class="table table-striped">
         <caption>Product List</caption>
         <tr>
             <th>#</th>
+            <th>Product Name</th>
             <th>SKU</th>
             <th>Price</th>
             <th>Create Time</th>
@@ -77,16 +130,19 @@
             {
                 <tr>
                     <td>@i</td>
+                    <td>@o.ProductName</td>
                     <td>@o.SKU</td>
                     <td>@o.Price</td>
                     <td>@o.CreateTime</td>
-                    <td><button class="btn btn-default" data-toggle="modal" onclick="deleteProduct('@o.ProductID','@o.SKU')" data-target="#myModalDelete">Delete</button><button class="btn btn-default">Edit</button></td>
+                    <td><button class="btn btn-default" data-toggle="modal" onclick="deleteProduct('@o.ProductID','@o.SKU')" data-target="#myModalDelete">Delete</button><button id="editModal@(i)" name="editModal@(i)" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="editProduct('@o.ProductID')">Edit</button></td>
                 </tr>
                 i++;
             }
 
         }
     </table>
+    <div class="pagination pull-right"> @Html.PageLinks(Model.Pagination, x => Url.Action("Index", new { page = x })) </div>
+
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -98,6 +154,7 @@
             </div>
             <div class="modal-body">
                 <form name="ggg" id="ggg">
+                    <input type="hidden" name="ProductID" id="ProductID" />
                     <div class="form-group">
                         <label for="ProductName" class="control-label">Product Name</label>
                         <input type="text" class="form-control" id="ProductName" name="ProductName" placeholder="Product Name" />
