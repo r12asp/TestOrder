@@ -4,10 +4,10 @@
 @model OrderViewPageViewModel
 <script>
 
-    function ccc(p)
+    function NextPage(p)
     {        
         $('input[name=page]').val(p);
-        $('form[name="fff"]').submit();
+        $('form[name="OrderSearch"]').submit();
         event.preventDefault();
     }
 </script>
@@ -15,7 +15,7 @@
     <h3>Order Details</h3>
 </div>
 <div class="container">
-    <form class="form-inline" name="fff">
+    <form class="form-inline" name="OrderSearch">
         <input type="hidden" name="page"/>
         <div class="form-group">
             <label for="CustomerName">Name</label>
@@ -72,9 +72,5 @@
             }
         }
     </table>
-    @*@Html.PagedListPager((IPagedList)Model.Orders.ToPagedList(
-    Model.Pagination != null ? Model.Pagination.CurrntPage:1,
-    Model.Pagination != null ? Model.Pagination.PageSize:10), page => Url.Action("Index",  new { page }))*@
-
     <div class="pagination pull-right"> @Html.PageLinks(Model.Pagination, x => Url.Action("Index", new { page = x })) </div> 
 </div>

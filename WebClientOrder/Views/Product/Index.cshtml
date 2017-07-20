@@ -9,19 +9,16 @@
 
 <h2>Product</h2>
 <script type="text/javascript">
-
     $(document).ready(function () {
-
         $("#CheckSubmit").click(function (e) {
-            //e.preventDefault();
             var element = this;
             $.ajax({
                 url: "/Product/InsertOrEdit",
                 type: "POST",
-                data: $("#ggg").serialize(),
+                data: $("#productForm").serialize(),
                 success: function (data) {
-                    $("#lll").html(data);
-                    $("#ggg").trigger("reset");
+                    $("#SaveChange").html(data);
+                    $("#productForm").trigger("reset");
                     location.reload();
                 },
                 error: function () {
@@ -30,17 +27,12 @@
             });
         });
         $("#DeleteSubmit").click(function (e) {
-            //e.preventDefault();
             var element = this;
             $.ajax({
                 url: "/Product/Delete",
                 type: "POST",
                 data: "pid=" + $("#pid").val(),
-                //dataType: "json",
-                //traditional: true,
-                //contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    //alert(data);
                     location.reload();
                 },
                 error: function () {
@@ -49,16 +41,12 @@
             });
         });
         $('button[id^="editModal"]').click(function (e) {
-            //alert(this);
             var element = this;
             $.ajax({
                 url: "/Product/Get",
                 type: "POST",
                 data: "pid=" + $("#pid").val(),
                 success: function (data) {
-                    //for (var key in data) {
-                    //    alert(data[key]);
-                    //}
                     $("#ProductName").val(data.ProductName);
                     $("#SKU").val(data.SKU);
                     $("#Price").val(data.Price);
@@ -75,7 +63,7 @@
 
     function createProduct() {
         $("#myModalLabel").text("New Product");
-        $("#ggg").trigger("reset");
+        $("#productForm").trigger("reset");
     }
     function deleteProduct(pid, sku) {
         $("#deleteSpan").html(sku);
@@ -86,7 +74,7 @@
         $("#ProductID").val(pid);
         $("#myModalLabel").text("Edit Product");
     }
-    function ccc(p) {
+    function NextPage(p) {
         $('input[name=page]').val(p);
         $('form[name="productSearch"]').submit();
         event.preventDefault();
@@ -153,7 +141,7 @@
                 <h4 class="modal-title" id="myModalLabel">New Product</h4>
             </div>
             <div class="modal-body">
-                <form name="ggg" id="ggg">
+                <form name="productForm" id="productForm">
                     <input type="hidden" name="ProductID" id="ProductID" />
                     <div class="form-group">
                         <label for="ProductName" class="control-label">Product Name</label>
@@ -170,7 +158,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <label name="lll" id="lll"></label>
+                <label name="SaveChange" id="SaveChange"></label>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" name="CheckSubmit" id="CheckSubmit">Save changes</button>
             </div>

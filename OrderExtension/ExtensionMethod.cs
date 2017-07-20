@@ -37,7 +37,7 @@ namespace OrderExtension
                 {
                     TagBuilder tag = new TagBuilder("a"); // Construct an <a> tag
                     tag.MergeAttribute("href", pageUrl(index));
-                    tag.Attributes.Add("OnClick", "ccc(" + index + ")");
+                    tag.Attributes.Add("OnClick", "NextPage(" + index + ")");
                     tag.InnerHtml = @"<<";
                     if (index == pagingInfo.CurrntPage)
                         tag.AddCssClass("active");
