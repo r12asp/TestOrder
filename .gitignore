@@ -2,28 +2,37 @@
 Thumbs.db
 ehthumbs.db
 
-DBRepositoryOrder/bin/*
-DBRepositoryOrder/obj/*
+DBRepository/bin/*
+DBRepository/obj/*
 
-DomainEntityOrder/bin/*
-DomainEntityOrder/obj/*
+DomainEntity/bin/*
+DomainEntity/obj/*
 
-DomainModelOrder/bin/*
-DomainModelOrder/obj/*
+DomainModel/bin/*
+DomainModel/obj/*
 
-DomainServiceOrder/DomainServiceOrder/bin/*
-DomainServiceOrder/DomainServiceOrder/obj/*
+DomainService/DomainService/bin/*
+DomainService/DomainService/obj/*
 
-DomainServiceOrder/packages/*
+DomainService/DomainServiceOrder/bin/*
+DomainService/DomainServiceOrder/obj/*
+
+DomainService/packages/*
 
 OrderExtension/bin/*
 OrderExtension/obj/*
 
-UnitTestOrder/bin/*
-UnitTestOrder/obj/*
+UnitTest/bin/*
+UnitTest/obj/*
 
-WebClientOrder/bin/*
-WebClientOrder/obj/*
+aspmvc/bin/*
+aspmvc/obj/*
+
+webapi/bin/*
+webapi/obj/*
+
+webservices/bin/*
+webservices/obj/*
 
 packages/*
 

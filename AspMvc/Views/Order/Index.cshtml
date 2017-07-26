@@ -1,0 +1,75 @@
+﻿@using DomainModelOrder.ViewModel;
+@using DomainModelOrder;
+@using OrderExtension;
+@model OrderViewPageViewModel
+<script>
+    function NextPage(p)
+    {        
+        $('input[name=page]').val(p);
+        $('form[name="OrderSearch"]').submit();
+        event.preventDefault();
+    }
+</script>
+<div>
+    <h3>Order Details</h3>
+</div>
+<div class="container">
+    <form class="form-inline" name="OrderSearch">
+        <input type="hidden" name="page"/>
+        <div class="form-group">
+            <label for="CustomerName">Name</label>
+            <input type="text" class="form-control" id="CustomerName" name="CustomerName" placeholder="Customer Name" value="@Model.OrderSearch.CustomerName" />
+        </div>
+        <div class="form-group">
+            <label for="SKU">SKU</label>
+            <input type="text" class="form-control" id="SKU" name="SKU" placeholder="SKU" value="@Model.OrderSearch.SKU" />
+        </div>
+        <div class="form-group">
+            <label for="SortColumn">SortBy</label>
+            <select class="form-control" id="SortColumn" name="SortColumn">
+                <option value="CustomerName" @(Model.OrderSearch.SortColumn == "CustomerName" ? "selected" : "")>Customer Name</option>
+                <option value="CreateTime" @(Model.OrderSearch.SortColumn == "CreateTime" ? "selected" : "")>Create Time</option>
+                <option value="Email" @(Model.OrderSearch.SortColumn == "Email" ? "selected" : "")>Email</option>
+                <option value="Email" @(Model.OrderSearch.SortColumn == "Price" ? "selected" : "")>Order Price</option>
+                <option value="Email" @(Model.OrderSearch.SortColumn == "Amount" ? "selected" : "")>Order Amount</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+    </form>
+    <table class="table table-striped">
+        <caption>Order List</caption>
+        <tr>
+            <th>#</th>
+            <th>Customer Name</th>
+            <th>Email</th>
+            <th>Price</th>
+            <th>Amount</th>
+            <th>Order Items</th>
+            <th>Create Date</th>
+        </tr>
+        @{
+            int i = 1;
+            foreach (OrderViewModel o in Model.Orders)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@o.CustomerName</td>
+                    <td>@o.Email</td>
+                    <td>@o.Price</td>
+                    <td>@o.Amount</td>
+                    <td>
+                        @foreach (OrderDetailModel iOIV in o.OrderItems)
+                        {
+                            <span style="background-color:gold;margin-right:5px;padding:2px"> @iOIV.SKU</span>
+                            <span style="background-color:aqua;margin-right:5px;padding:2px"> @iOIV.Amount </span>
+                            <span style="background-color:deeppink;margin-right:5px;padding:2px"> @iOIV.Price </span> <br />
+                        }
+                    </td>
+                    <td>@o.CreateTime</td>
+                </tr>
+                i++;
+            }
+        }
+    </table>
+    <div class="pagination pull-right"> @Html.PageLinks(Model.Pagination, x => Url.Action("Index", new { page = x })) </div> 
+</div>
